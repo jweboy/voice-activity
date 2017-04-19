@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Voice-Activity</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="apple-touch-fullscreen" content="YES">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="renderer" content="webkit">
+    <link rel="shortcut icon" type="image/png" href="imgs/favicon.jpg" />
+    <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <style>
+    html {
+        height: 100%;
+    }
+    body {
+        margin: 0;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    a {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    .share-page {
+        height: 100%;
+        background-image: url('imgs/p5-bg.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .main2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80%;
+        height: 40%;
+        margin: 0 10%;
+    }
+
+    .main2 .text1 {
+        height: 100%;
+        margin-top: 5%;
+        background-image: url('imgs/p6-text1.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .bottle {
+        position: absolute;
+        bottom: 0;
+        z-index: 10;
+        width: 27%;
+        height: 62%;
+        margin: 0 34%;
+        background-image: url('imgs/bottle.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .aside {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 31%;
+        height: 55%;
+        padding: 2%;
+    }
+
+    .aside .btn{
+        display: block;
+        height: 30%;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        margin-left: 10px;
+    }
+
+    .aside .join-btn{
+        background-image: url('imgs/join-btn.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        bottom:35%;
+    }
+    .aside .share-btn{
+        background-image: url('imgs/share-btn.png');
+        background-repeat: no-repeat;
+        background-size: 90% 90%;
+        bottom:5%;
+    }
+
+    .tip {
+        width: 20%;
+        height: 20%;
+        position: absolute;
+        z-index: 20;
+        background-image: url('imgs/p5-tip.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .sound {
+        position: absolute;
+        top: 30%;
+        left: -3%;
+        width: 70%;
+        margin: 0 16%;
+        height: 50%;
+        background-image: url('imgs/sound-wave.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .bubble {
+        position: absolute;
+        top: 30%;
+        margin: 0 44%;
+        width: 15%;
+        animation-duration: 3s;
+        -webkit-animation-duration: 3s;
+        height: 5%;
+        background-image: url('imgs/bubble.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .rule {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 50;
+        width: 100%;
+        height: 100%;
+        overflow-y: hidden;
+    }
+
+    .rule-in {
+        animation: ruleIn 350ms linear;
+    }
+
+    .rule-out {
+        animation: ruleOut 350ms linear;
+    }
+
+    .rule img {
+        width: 100%;
+    }
+
+    @keyframes ruleIn {
+        0% {
+            transform: translate(100%);
+        }
+        50% {
+            transform: translate(50%);
+        }
+        100% {
+            transform: translate(0%);
+        }
+    }
+
+    @keyframes ruleOut {
+        0% {
+            transform: translate(0%);
+        }
+        50% {
+            transform: translate(50%);
+        }
+        100% {
+            transform: translate(100%);
+        }
+    }
+    .rule .close{
+       position: absolute;
+        z-index: 51;
+        right: 3%;
+        top: 2%;
+        width: 7%;
+    }
+
+    .u-hidden {
+        display: none
+    }
+    </style>
+    <script>
+    (function() {
+        // 根据不同设备设置缩放比例
+        var phoneWidth = parseInt(window.screen.width),
+            phoneScale = phoneWidth / 640,
+            ua = navigator.userAgent,
+            version = parseFloat(RegExp.$1);
+
+        var meta = document.createElement('meta');
+        meta.setAttribute('name', 'viewport');
+
+        if (/Android (\d+\.\d+)/.test(ua)) {
+            // andriod 2.3
+            if (version > 2.3) {
+                meta.setAttribute('content', 'width=640, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', user-scalable=no');
+                // andriod 2.3以上
+            } else {
+                meta.setAttribute('content', 'width=640, user-scalable=no');
+            }
+            // 其他系统
+        } else {
+            meta.setAttribute('content', 'width=640,user-scalable=no');
+        }
+
+        document.documentElement.firstElementChild.appendChild(meta);
+    }());
+    </script>
+</head>
+
+<body>
+    <div class="p5-bg share-page" id="sharePage">
+        <div class="tip" id="tip"></div>
+        <div class="main2">
+            <div class="text1"></div>
+        </div>
+        <div class="aside">
+            <a href="index.html" class="btn join-btn" id="joinBtn"></a>
+            <a href="#" class="btn share-btn" id="shareBtn"></a>
+        </div>
+        <div class="bottle" id="previewBtn"></div>
+        <div class="sound animated pulse infinite u-hidden"  id="soundWave"></div>
+        <div class="bubble animated fadeInUp infinite u-hidden"  id="bubble"></div>
+        <div class="rule u-hidden" id="rule">
+            <img src="imgs/close.png" class="close" id="closeBtn" alt="关闭按钮">
+            <img src="imgs/rules.jpg" alt="规则">
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+    <script>
+    $(function() {
+
+        FastClick.attach(document.body);
+
+        $('#shareBtn').click(function() {
+
+        });
+
+        $('#previewBtn').on('touchstart', function(e) {
+            soundAnimate();
+        }).on('touchend', function(e) {
+            soundStop();
+        });
+
+
+        $('#tip').click(function() {
+            $('#rule').removeClass('u-hidden');
+
+            setTimeout(function () {
+                $('#rule').addClass('rule-in');
+            }, 0);
+
+        });
+
+         $('#closeBtn').click(function() {
+            $('#rule')
+                .removeClass('rule-in')
+                .addClass('rule-out');
+
+            $('#upArrow')
+                .removeClass('u-hidden');
+
+            setTimeout(function() {
+                $('#rule')
+                    .addClass('u-hidden')
+                    .removeClass('rule-out');
+            }, 350);
+        });
+
+
+        function soundAnimate() {
+            $('#soundWave').removeClass('u-hidden');
+            $('#bubble').removeClass('u-hidden');
+        }
+
+        function soundStop() {
+            $('#soundWave').addClass('u-hidden');
+            $('#bubble').addClass('u-hidden');
+        }
+    });
+    </script>
+</body>
+
+</html>

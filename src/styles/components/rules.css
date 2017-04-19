@@ -1,0 +1,52 @@
+.rule{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 60;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.rule-in{
+    animation: ruleIn 350ms linear;
+}
+.rule-out{
+    animation: ruleOut 350ms linear;
+}
+.rule img{
+    width: 100%;
+}
+.rule .close{
+   position: absolute;
+    z-index: 51;
+    right: 3%;
+    top: 2%;
+    width: 7%;
+}
+
+@keyframes ruleIn{
+    0% {
+        transform: translate(100%);
+    }
+
+    50%{
+        transform: translate(50%);
+    }
+
+    100%{
+        transform: translate(0%);
+    }
+}
+@keyframes ruleOut{
+    0% {
+        transform: translate(0%);
+    }
+
+    50%{
+        transform: translate(50%);
+    }
+
+    100%{
+        transform: translate(100%);
+    }
+}
