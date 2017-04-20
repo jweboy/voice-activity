@@ -6,6 +6,7 @@
 
     module.exports = {
         timer: null,
+        localId:'',
         init:function() {
             this.play();
             this.record();
@@ -14,9 +15,24 @@
 
             this.rule();
             this.closeRule();
+
+            var that = this;
+            wx.onVoiceRecordEnd({
+                // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+                complete: function (res) {
+                    that.localId = res.localId;
+                    alert(that.localId);
+                }
+            });
+
+            wx.onVoicePlayEnd({
+                success: function (res) {
+                    soundAnimation.clear(5);
+                }
+            });
         },
         play: function() {
-            $('#playBtn').click(function () {
+            $('#playBtn').on('touchstart', function () {
                 if($(this).hasClass('no-click')) {
                     return;
                 }
@@ -24,9 +40,11 @@
                 soundAnimation.sound(5);
                 soundAnimation.bubble(5);
 
-                setTimeout(function () {
-                    soundAnimation.clear(5);
-                }, 3000);
+                var that = this;
+                alert(that.localId);
+                wx.playVoice({
+                    localId: that.localId // 需要播放的音频的本地ID，由stopRecord接口获得
+                });
             });
         },
         record: function () {
@@ -34,11 +52,19 @@
                 soundAnimation.sound(5);
                 soundAnimation.bubble(5);
 
+                wx.startRecord();
+
             }).on('touchend', function () {
-                soundAnimation.clear(5);
 
-                this.reRecordIn();
-
+                var that = this;
+                wx.stopRecord({
+                    success: function (res) {
+                        that.localId = res.localId;
+                        alert(that.localId);
+                        soundAnimation.clear(5);
+                        that.reRecordIn();
+                    }
+                });
             }.bind(this));
         },
         reRecord: function() {
@@ -90,12 +116,12 @@
             });
         },
         reRecordIn: function () {
-            $('#playBtn').removeClass('no-click').css('background-image','url("../imgs/p5-btn1.png")');
-            $('#reRecordBtn').removeClass('no-click').css('background-image','url("../imgs/p5-btn2.png")');
+            $('#playBtn').removeClass('no-click').css('background-image','url("imgs/p5-btn1.png")');
+            $('#reRecordBtn').removeClass('no-click').css('background-image','url("imgs/p5-btn2.png")');
         },
         reRecordOut: function () {
-            $('#playBtn').addClass('no-click').css('background-image','url("../imgs/p5-btn1-no.png")');
-            $('#reRecordBtn').addClass('no-click').css('background-image','url("../imgs/p5-btn2-no.png")');
+            $('#playBtn').addClass('no-click').css('background-image','url("imgs/p5-btn1-no.png")');
+            $('#reRecordBtn').addClass('no-click').css('background-image','url("imgs/p5-btn2-no.png")');
         },
     };
 }());

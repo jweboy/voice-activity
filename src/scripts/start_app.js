@@ -68,6 +68,10 @@
         });
     };
 
+    document.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+    }, false);
+
     module.exports = {
         pageRender: pageRender
     };
